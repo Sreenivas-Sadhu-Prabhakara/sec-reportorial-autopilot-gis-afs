@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'; connect-src 'self'">
+<meta name="robots" content="noindex, nofollow">
+<title>SEC Reportorial Calendar · Open MSME</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script src="assets/theme-init.js"></script>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/accent.css">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand"><span class="dot"></span> SEC Reportorial Calendar <span class="tag">Open MSME</span></span>
+    <span class="sp"></span>
+    <span class="tag" id="data-file" title="Where your register is stored"></span>
+    <button class="themer" type="button" data-themer>Theme</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Professional &amp; business services · Philippines</p>
+    <h1>SEC reportorial deadline tracker for Philippine corporations</h1>
+    <p class="lede">The General Information Sheet is due thirty calendar days after your own annual meeting, so no two corporations share that date. The audited financial statements are due on the schedule the Commission publishes for the season. This keeps both per company, with escalating reminders and a record of what was filed and the reference it came back with.</p>
+    <div class="who">
+      <span class="pill">Corporations, partnerships and their bookkeepers</span>
+      <span class="pill reg">Revised Corporation Code (RA 11232) · SEC MC No. 9, s. 2026</span>
+      <span class="pill">Runs on your machine</span>
+    </div>
+  </section>
+
+  <p class="note" id="disclaimer"></p>
+
+  <nav class="tabs seg" aria-label="Sections">
+    <button type="button" data-tab="calendar" aria-pressed="true">Compliance calendar</button>
+    <button type="button" data-tab="companies" aria-pressed="false">Companies</button>
+    <button type="button" data-tab="filings" aria-pressed="false">Filings &amp; proof</button>
+    <button type="button" data-tab="settings" aria-pressed="false">Settings</button>
+    <button type="button" data-tab="rules" aria-pressed="false">Rules &amp; sources</button>
+  </nav>
+
+  <p class="flash" id="flash" role="status" aria-live="polite" hidden></p>
+
+  <!-- ───────── compliance calendar ───────── -->
+  <section class="card panel" id="panel-calendar">
+    <h2>What is due, and when</h2>
+    <div class="row2">
+      <div class="field">
+        <label for="cal-year">Filing year</label>
+        <div class="inp"><input type="number" id="cal-year" min="1900" max="2200" step="1"></div>
+      </div>
+      <div class="field">
+        <label for="cal-asof">As of <span class="hint">look ahead to check a date</span></label>
+        <div class="inp"><input type="date" id="cal-asof"></div>
+      </div>
+    </div>
+    <div class="counts" id="cal-counts"></div>
+    <div class="tablewrap">
+      <table class="breakdown board">
+        <thead>
+          <tr><th>Company</th><th>Filing</th><th>Due</th><th>Status</th><th>What to do</th></tr>
+        </thead>
+        <tbody id="cal-rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="cal-empty" hidden>No companies yet. Add one on the Companies tab and the calendar fills itself in.</p>
+    <div class="btnrow">
+      <a class="btn ghost" id="cal-export" href="api/export.csv" download>Export this calendar as CSV</a>
+    </div>
+  </section>
+
+  <!-- ───────── companies ───────── -->
+  <section class="card panel" id="panel-companies" hidden>
+    <h2>Companies</h2>
+    <div class="tablewrap">
+      <table class="breakdown">
+        <thead><tr><th>Name</th><th>SEC registration</th><th>Kind</th><th>Fiscal year end</th><th></th></tr></thead>
+        <tbody id="co-rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="co-empty" hidden>No companies yet.</p>
+
+    <h3 id="co-form-title">Add a company</h3>
+    <form id="co-form" autocomplete="off">
+      <input type="hidden" id="co-id">
+      <div class="row2">
+        <div class="field">
+          <label for="co-name">Registered name</label>
+          <div class="inp"><input type="text" id="co-name" required></div>
+        </div>
+        <div class="field">
+          <label for="co-reg">SEC registration number <span class="hint">recorded for identification</span></label>
+          <div class="inp"><input type="text" id="co-reg"></div>
+        </div>
+      </div>
+      <p class="hint" id="co-reg-note"></p>
+      <div class="row2">
+        <div class="field">
+          <label for="co-entity">Kind of registrant</label>
+          <select id="co-entity"></select>
+        </div>
+        <div class="field">
+          <label for="co-class">Filer class <span class="hint">decides which statements you owe</span></label>
+          <select id="co-class"></select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="co-fye-month">Fiscal year end month</label>
+          <select id="co-fye-month"></select>
+        </div>
+        <div class="field">
+          <label for="co-fye-day">Fiscal year end day</label>
+          <div class="inp"><input type="number" id="co-fye-day" min="1" max="31" step="1" value="31"></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="co-basis">The GIS clock starts from</label>
+          <select id="co-basis"></select>
+        </div>
+        <div class="field" id="co-reckon-field">
+          <label for="co-reckon">Date of that licence or incorporation</label>
+          <div class="inp"><input type="date" id="co-reckon"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="co-notes">Notes</label>
+        <div class="inp"><input type="text" id="co-notes"></div>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" type="submit">Save company</button>
+        <button class="btn ghost" type="button" id="co-reset">Clear the form</button>
+      </div>
+    </form>
+
+    <div id="co-detail" hidden>
+      <h3 id="co-detail-name"></h3>
+      <p class="hint" id="co-detail-reg"></p>
+
+      <h4>Annual meetings</h4>
+      <p class="hint">The General Information Sheet is counted from the date the meeting was actually held, so this is the field that sets the deadline.</p>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead><tr><th>Year</th><th>Meeting date</th><th>Status</th><th>GIS due</th><th></th></tr></thead>
+          <tbody id="mt-rows"></tbody>
+        </table>
+      </div>
+      <form id="mt-form" autocomplete="off">
+        <div class="row2">
+          <div class="field">
+            <label for="mt-date">Meeting date</label>
+            <div class="inp"><input type="date" id="mt-date" required></div>
+          </div>
+          <div class="field">
+            <label for="mt-held">Has it been held?</label>
+            <select id="mt-held">
+              <option value="yes">Held on that date</option>
+              <option value="no">Only scheduled so far</option>
+            </select>
+          </div>
+        </div>
+        <div class="btnrow"><button class="btn primary" type="submit">Record the meeting</button></div>
+      </form>
+
+      <h4>This company's calendar</h4>
+      <div id="co-obligations"></div>
+
+      <h4>Delinquency watch</h4>
+      <div id="co-delinquency"></div>
+
+      <h4>Five-year record</h4>
+      <div class="tablewrap">
+        <table class="breakdown">
+          <thead><tr><th>Year</th><th>Filing</th><th>Due</th><th>Filed</th><th>Proof reference</th><th>Standing</th></tr></thead>
+          <tbody id="co-history"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── filings ───────── -->
+  <section class="card panel" id="panel-filings" hidden>
+    <h2>Filings and proof of filing</h2>
+    <p class="hint">Record what you filed and the reference it came back with. This tool files nothing: the reference is yours to keep, and it is what you produce when the Commission asks.</p>
+    <form id="fi-form" autocomplete="off">
+      <div class="row2">
+        <div class="field">
+          <label for="fi-company">Company</label>
+          <select id="fi-company"></select>
+        </div>
+        <div class="field">
+          <label for="fi-req">Filing</label>
+          <select id="fi-req"></select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="fi-year">Filing year</label>
+          <div class="inp"><input type="number" id="fi-year" min="1900" max="2200" step="1"></div>
+        </div>
+        <div class="field">
+          <label for="fi-date">Date filed</label>
+          <div class="inp"><input type="date" id="fi-date" required></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="fi-ref">Proof reference <span class="hint">the confirmation or QR reference</span></label>
+          <div class="inp"><input type="text" id="fi-ref" required></div>
+        </div>
+        <div class="field">
+          <label for="fi-channel">Filed through</label>
+          <div class="inp"><input type="text" id="fi-channel" value="eFAST"></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="fi-by">Filed by</label>
+          <div class="inp"><input type="text" id="fi-by"></div>
+        </div>
+        <div class="field">
+          <label for="fi-note">Note</label>
+          <div class="inp"><input type="text" id="fi-note"></div>
+        </div>
+      </div>
+      <div class="btnrow"><button class="btn primary" type="submit">Record the filing</button></div>
+    </form>
+
+    <div class="tablewrap">
+      <table class="breakdown">
+        <thead><tr><th>Company</th><th>Filing</th><th>Year</th><th>Filed on</th><th>Proof reference</th><th></th></tr></thead>
+        <tbody id="fi-rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="fi-empty" hidden>Nothing recorded yet.</p>
+  </section>
+
+  <!-- ───────── settings ───────── -->
+  <section class="card panel" id="panel-settings" hidden>
+    <h2>Settings</h2>
+
+    <h3>Reminder ladder</h3>
+    <p class="hint">How many calendar days before a deadline each reminder starts. These are this tool's own steps, not a rule.</p>
+    <div class="row2">
+      <div class="field"><label for="se-plan">Plan</label><div class="inp has-suf"><input type="number" id="se-plan" min="1" step="1"><span class="suf">days</span></div></div>
+      <div class="field"><label for="se-prepare">Prepare</label><div class="inp has-suf"><input type="number" id="se-prepare" min="1" step="1"><span class="suf">days</span></div></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="se-soon">Due soon</label><div class="inp has-suf"><input type="number" id="se-soon" min="1" step="1"><span class="suf">days</span></div></div>
+      <div class="field"><label for="se-urgent">Urgent</label><div class="inp has-suf"><input type="number" id="se-urgent" min="1" step="1"><span class="suf">days</span></div></div>
+    </div>
+    <div class="field"><label for="se-final">Final call</label><div class="inp has-suf"><input type="number" id="se-final" min="1" step="1"><span class="suf">days</span></div></div>
+
+    <h3>Non-working days</h3>
+    <p class="hint">A submission made on a Saturday, Sunday or holiday counts as filed on the next working day, so a deadline landing on one is not a grace day. Philippine holidays are proclaimed yearly and this tool never goes online, so add the ones that matter from the proclamation.</p>
+    <div class="tablewrap">
+      <table class="breakdown">
+        <thead><tr><th>Date</th><th>Name</th><th></th></tr></thead>
+        <tbody id="se-holidays"></tbody>
+      </table>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="se-hol-date">Date</label><div class="inp"><input type="date" id="se-hol-date"></div></div>
+      <div class="field"><label for="se-hol-name">Name</label><div class="inp"><input type="text" id="se-hol-name"></div></div>
+    </div>
+    <div class="btnrow"><button class="btn ghost" type="button" id="se-hol-add">Add the non-working day</button></div>
+
+    <h3>Deadlines you have been given</h3>
+    <p class="hint">The Commission issues a filing schedule each season and has revised it mid-season by notice. When a date appears that this build does not hold, put it here with the issuance that set it, and the calendar will use it.</p>
+    <div class="tablewrap">
+      <table class="breakdown">
+        <thead><tr><th>Filing</th><th>Filing year</th><th>Company</th><th>Due</th><th>Issuance</th><th></th></tr></thead>
+        <tbody id="se-overrides"></tbody>
+      </table>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="se-ov-req">Filing</label><select id="se-ov-req"></select></div>
+      <div class="field"><label for="se-ov-year">Filing year</label><div class="inp"><input type="number" id="se-ov-year" min="1900" max="2200" step="1"></div></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="se-ov-company">Company <span class="hint">leave on "every company" for a season-wide date</span></label><select id="se-ov-company"></select></div>
+      <div class="field"><label for="se-ov-due">Deadline</label><div class="inp"><input type="date" id="se-ov-due"></div></div>
+    </div>
+    <div class="field"><label for="se-ov-source">Which issuance set it</label><div class="inp"><input type="text" id="se-ov-source" placeholder="SEC Memorandum Circular No. ___, Series of ____"></div></div>
+    <div class="btnrow"><button class="btn ghost" type="button" id="se-ov-add">Add the deadline</button></div>
+
+    <h3>Penalty figures</h3>
+    <p class="hint" id="se-pen-note"></p>
+    <div class="field"><label for="se-pen-source">Which issuance and tier these came from</label><div class="inp"><input type="text" id="se-pen-source" placeholder="SEC MC No. 6, s. 2024, Part II — your tier"></div></div>
+    <div class="row2">
+      <div class="field"><label for="se-pen-late">Basic fine, late filing</label><div class="inp has-pre"><span class="pre">₱</span><input type="number" id="se-pen-late" min="0" step="1"></div></div>
+      <div class="field"><label for="se-pen-non">Basic fine, non-filing</label><div class="inp has-pre"><span class="pre">₱</span><input type="number" id="se-pen-non" min="0" step="1"></div></div>
+    </div>
+    <div class="field"><label for="se-pen-monthly">Per month of delay</label><div class="inp has-pre"><span class="pre">₱</span><input type="number" id="se-pen-monthly" min="0" step="1"></div></div>
+
+    <div class="btnrow">
+      <button class="btn primary" type="button" id="se-save">Save settings</button>
+    </div>
+  </section>
+
+  <!-- ───────── rules ───────── -->
+  <section class="card panel" id="panel-rules" hidden>
+    <h2>Every rule this tool counts with</h2>
+    <p class="hint" id="rules-asof"></p>
+    <div class="tablewrap">
+      <table class="breakdown">
+        <thead><tr><th>Rule</th><th>What it says</th><th>Where it comes from</th></tr></thead>
+        <tbody id="rules-rows"></tbody>
+      </table>
+    </div>
+
+    <h3>The dated schedule this build carries</h3>
+    <div class="tablewrap">
+      <table class="breakdown">
+        <thead><tr><th>Filing</th><th>Fiscal year end</th><th>Deadline</th><th>Where it comes from</th></tr></thead>
+        <tbody id="rules-schedule"></tbody>
+      </table>
+    </div>
+
+    <h3>The registration number</h3>
+    <p id="rules-regnumber"></p>
+
+    <h3>Penalties</h3>
+    <p id="rules-penalty"></p>
+
+    <h3>What this tool is not</h3>
+    <p id="rules-disclaimer"></p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Runs on your machine. Nothing is sent anywhere. Confirm every figure with the Commission before you file.</span>
+    <span>MIT licensed</span>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

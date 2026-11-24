@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+<meta name="description" content="A free, offline tool that tracks SEC reportorial deadlines for Philippine corporations: the General Information Sheet counted from your own annual meeting, and the audited financial statements on the schedule the Commission published.">
+<title>SEC Reportorial Calendar · Open MSME</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script src="assets/theme-init.js"></script>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/accent.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand"><span class="dot"></span> SEC Reportorial Calendar <span class="tag">Open MSME</span></span>
+    <span class="sp"></span>
+    <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+    <button class="themer" type="button" data-themer>Theme</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Professional &amp; business services · Philippines</p>
+    <h1>SEC reportorial deadline tracker for Philippine corporations</h1>
+    <p class="lede">The General Information Sheet is due thirty calendar days after your own annual meeting, so no two corporations share that date. The audited financial statements are due on the schedule the Commission publishes for the season — a schedule that has moved, and moved again mid-season. This keeps both, per company, with escalating reminders and a record of what was filed and the reference it came back with.</p>
+    <div class="who">
+      <span class="pill">Corporations, partnerships and their bookkeepers</span>
+      <span class="pill reg">Revised Corporation Code (RA 11232) · SEC MC No. 9, s. 2026</span>
+      <span class="pill">One binary, runs offline</span>
+    </div>
+  </section>
+
+  <div class="cols">
+    <div class="prose">
+
+      <h2>What it does</h2>
+      <p>You record each company once: its registered name, its SEC registration number, what kind of registrant it is, when its fiscal year ends, and the date of its annual stockholders' or members' meeting. From that it works out what is due and when, and keeps a filed-or-not record against every deadline with the proof reference the filing came back with.</p>
+      <p>The General Information Sheet is the interesting one. Its deadline is <strong>derived from your own meeting date</strong>, not from a calendar date everyone shares, so the tool asks for the meeting and counts thirty calendar days from it. Until a meeting has been held there is no deadline, and the tool says that instead of inventing one.</p>
+      <p>The audited financial statements are the dangerous one. Earlier filing seasons staggered them across weeks by the last digit of the SEC registration number. The circular governing the season this tool was built against does not: it gives every corporation with a 31 December fiscal year end a single date. The tool therefore records your registration number and shows its last digit next to a plain statement that the digit does not set your filing window.</p>
+
+      <h2>Who it's for</h2>
+      <p>Philippine corporations, One Person Corporations, non-stock corporations, registered partnerships and the branch, representative and regional offices of foreign corporations — and most of all the bookkeepers, corporate secretaries and small accounting firms who carry twenty or thirty of them and need one board showing which deadline is closest.</p>
+
+      <h2>The rule it implements</h2>
+      <p>Section 177 of the Revised Corporation Code of the Philippines (Republic Act No. 11232) requires every corporation, domestic or foreign, to submit its annual financial statements and General Information Sheet within the period the Commission prescribes. The Commission prescribes that period in a filing-schedule memorandum circular issued each year. For the season this build carries, that is <strong>SEC Memorandum Circular No. 9, Series of 2026</strong>, issued 11 February 2026:</p>
+      <ul>
+        <li><strong>General Information Sheet</strong> — within <strong>thirty (30) calendar days</strong> from the date of the actual annual stockholders' meeting (stock corporations), the actual annual members' meeting (non-stock corporations), or the anniversary date of the issuance of the SEC licence (foreign corporations). Section 5.</li>
+        <li><strong>Audited financial statements, 31 December fiscal year end</strong> — one date for everybody, originally <strong>29 May 2026</strong> under Section 1, <strong>extended to 15 June 2026</strong> by the SEC Notice dated 14 April 2026 after the Bureau of Internal Revenue moved the annual income tax return deadline to 15 May 2026.</li>
+        <li><strong>Other fiscal year ends</strong> — within <strong>120 calendar days</strong> from the end of the fiscal year. Section 2(a).</li>
+        <li><strong>Issuers and public companies</strong> covered by Section 17.2 of the Securities Regulation Code — within <strong>105 calendar days</strong> after the end of the fiscal year, attached to the Annual Report on SEC Form 17-A. Section 2(b). Brokers and dealers file SEC Form 52-AR, 110 calendar days after the close of a non-December fiscal year.</li>
+        <li><strong>Audited by the Commission on Audit</strong> — outside the dated schedule, filed when that audit concludes with the affidavit and COA letter attached. Section 2(c).</li>
+        <li><strong>Filing on a non-working day</strong> — a submission made on a Saturday, Sunday, holiday or during a work suspension counts as filed on the next working day. Section 9. A deadline that lands on a weekend is therefore not a grace day, and the tool shows the last working day on or before it.</li>
+      </ul>
+      <p>Late and non-filing penalties are set separately, in <strong>SEC Memorandum Circular No. 6, Series of 2024</strong> (27 March 2024), which has since been amended: SEC Memorandum Circular No. 10, Series of 2026 gives One Person Corporations their own scale, and SEC Memorandum Circular No. 16, Series of 2026 suspended the per-month component from 14 May 2026 to 31 December 2026 while leaving the basic fine in force. Failing to submit reportorial requirements three times, consecutively or intermittently, within five years is a ground for the Commission to place a corporation under delinquent status under Section 177 of the Revised Corporation Code, with the guidelines in SEC Memorandum Circular No. 19, Series of 2023; a sixth offence after notice of delinquency is a ground for revoking the certificate of registration or licence to transact business.</p>
+
+      <h2>What it does not do</h2>
+      <p>It does not put a peso figure on a late filing by itself. The scale is tiered by the kind of registrant, by retained earnings or fund balance and by how many offences have been settled before, and it has been amended twice during 2026. A number out of a tool that has not read your tier would be a guess, and the Commission's own assessment governs. The tool names the consequence instead — late, assessed as a non-filing, delinquency, revocation — and if you read your own tier off the current circular and enter the figures, it will apply them and label the result as yours.</p>
+
+      <h2>Install &amp; run</h2>
+      <pre><code>git clone https://github.com/sreenivas-sadhu-prabhakara/sec-reportorial-autopilot-gis-afs.git
+cd sec-reportorial-autopilot-gis-afs
+go build -o sec-calendar .
+./sec-calendar
+
+# or, without building first
+go run .
+
+# listens on http://127.0.0.1:8080
+# other options
+./sec-calendar -addr 127.0.0.1:9000 -data ~/clients/sec-register.json</code></pre>
+      <p>Go 1.25 or later. There is nothing else to install: the interface is compiled into the binary and there are no dependencies to download.</p>
+
+      <h2>What it stores</h2>
+      <p>One JSON file on your own machine, at <code>./sec-reportorial-autopilot-gis-afs-data.json</code> unless you point <code>-data</code> somewhere else. It holds your companies, their meeting dates, the filings you have recorded with their proof references, and your settings. Writes go to a temporary file and are renamed over the old one, so an interrupted save leaves the previous good file intact, and the file is written readable only by you.</p>
+      <p>The binary binds to 127.0.0.1 and makes no outbound connections of any kind. There is no account, no sync, no telemetry and no update check. If you delete the file, the tool has nothing.</p>
+
+      <h2>Features</h2>
+      <div class="featgrid">
+        <div class="feat">
+          <h3>Deadlines derived, not typed</h3>
+          <p>Thirty calendar days from the meeting you recorded, with month-end and leap-day arithmetic that holds at every boundary.</p>
+        </div>
+        <div class="feat">
+          <h3>Dated, sourced schedule</h3>
+          <p>Every AFS date carries the issuance that set it, including the date it replaced. Nothing is rolled forward from last season.</p>
+        </div>
+        <div class="feat">
+          <h3>It says when it does not know</h3>
+          <p>No published schedule for a season means no date, with an explanation — not last year's date wearing this year's label.</p>
+        </div>
+        <div class="feat">
+          <h3>User-overridable</h3>
+          <p>When the next memorandum appears, put the date and the circular number into Settings and the calendar uses it. No new build needed.</p>
+        </div>
+        <div class="feat">
+          <h3>Escalating reminders</h3>
+          <p>Plan, prepare, due soon, urgent, final call, due today, overdue — with the day each step starts, and the steps themselves adjustable.</p>
+        </div>
+        <div class="feat">
+          <h3>The last working day</h3>
+          <p>A deadline on a weekend or a holiday you recorded is shown with the working day you must actually file by.</p>
+        </div>
+        <div class="feat">
+          <h3>Proof of filing kept</h3>
+          <p>Every filing records its date, its channel and the reference it came back with, so the proof is beside the obligation.</p>
+        </div>
+        <div class="feat">
+          <h3>Delinquency watch</h3>
+          <p>Counts missed filings in the trailing five years against the statutory ground of three, and names what comes after it.</p>
+        </div>
+        <div class="feat">
+          <h3>Every rule on one screen</h3>
+          <p>A Rules tab listing each figure the tool counts with next to the circular and section it came from.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <p><strong>This tool records and reminds. It does not file anything.</strong> It has no connection to eFAST or to any other Commission system, submits nothing, and sends nothing anywhere. Every filing is still made by you, in eFAST.</p>
+        <p>The dates and figures it ships with were checked against the Commission's own issuances on 24 November 2026 and are indicative. The Commission issues a fresh filing-schedule memorandum every season and has revised it mid-season by notice — the 2026 audited financial statements deadline moved from 29 May to 15 June while the season was running. Confirm the current schedule, the current scale of fines and your own tier with the Commission before you rely on anything here. This is not legal or accounting advice.</p>
+      </div>
+
+      <h2>Licence</h2>
+      <p>MIT licensed. Use it, change it, hand it to a client.</p>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a> · free tools for micro and small businesses in India and the Philippines</span>
+    <span>MIT licensed · runs on your machine</span>
+  </div>
+</footer>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

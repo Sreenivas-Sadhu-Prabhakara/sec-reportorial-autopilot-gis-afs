@@ -1,0 +1,16 @@
+# the built binary
+/sec-reportorial-autopilot-gis-afs
+/sec-reportorial-autopilot-gis-afs.exe
+/sec-calendar
+/sec-calendar.exe
+
+# local records — these are a client's compliance register, never commit them
+*-data.json
+*-data.json.tmp-*
+
+# editor and OS litter
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
